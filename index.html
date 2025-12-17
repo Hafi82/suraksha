@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suraksha Students Records | Baduriya Central College</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using Inter font for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="main-header">
+            <div class="logo-area">
+                <h1>Suraksha Students Records</h1>
+                <p class="subtitle">Baduriya Central College – Mawanella</p>
+            </div>
+            <div class="header-actions">
+                <button id="btn-export-csv" class="btn btn-outline" onclick="app.exportCSV()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Export CSV
+                </button>
+                <button id="btn-export-pdf" class="btn btn-outline" onclick="window.print()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    Export PDF
+                </button>
+                <label for="file-import" class="btn btn-outline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Import
+                </label>
+                <input type="file" id="file-import" accept=".csv,.json" style="display: none;" onchange="app.importData(this)">
+                
+                <button id="btn-add-record" class="btn btn-primary" onclick="app.openModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Record
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats / Overview (Optional but good for UI) -->
+        <div class="stats-bar">
+            <span class="stat-item">Total Records: <strong id="total-records-count">0</strong></span>
+        </div>
+
+        <!-- content -->
+        <main class="content-area">
+            <div class="table-container">
+                <table id="records-table">
+                    <thead>
+                        <tr>
+                            <th>Admission No</th>
+                            <th>Student Name</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                            <th>Contact</th>
+                            <th>Ref No</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Rows will be injected here -->
+                    </tbody>
+                </table>
+                <div id="empty-state" class="empty-state hidden">
+                    <p>No records found. Click "Add Record" to start.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="record-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Record</h2>
+                <button class="btn-close" onclick="app.closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="record-form">
+                    <input type="hidden" id="record-id">
+                    
+                    <div class="form-group">
+                        <label for="student-name">Name of Student <span class="required">*</span></label>
+                        <input type="text" id="student-name" required placeholder="Enter full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="admission-no">Admission No <span class="required">*</span></label>
+                        <input type="number" id="admission-no" required placeholder="Ex: 1023">
+                    </div>
+
+                    <div class="form-group half">
+                        <label for="record-date">Date</label>
+                        <input type="date" id="record-date">
+                    </div>
+
+                    <div class="form-group half">
+                        <label for="contact-number">Contact Number</label>
+                        <input type="tel" id="contact-number" placeholder="07x xxxxxxx">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" placeholder="Residential address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reference-number">Reference Number</label>
+                        <input type="text" id="reference-number" placeholder="Optional ref">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" rows="3" placeholder="Any important notes..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Record</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
